@@ -1,0 +1,86 @@
+package snake;
+
+import java.io.PrintStream;
+import java.util.Scanner;
+import ui.UIAuxiliaryMethods;
+import ui.Event;
+import ui.SnakeUserInterface;
+import ui.UserInterfaceFactory;
+
+public class Snake {
+	
+		// Name	:Levi Kamsteeg
+		// Assignment : Snake
+		// Date :25-11-2015
+	
+	static final int X_AS = 32;
+	static final int Y_AS = 24;
+	static final int FRAMESPERSECOND = 5;
+	
+	
+	SnakeUserInterface ui;
+	PrintStream out;
+	
+	
+	Snake () {
+		ui = UserInterfaceFactory.getSnakeUI(X_AS, Y_AS);
+	}
+	
+	void placeSnake () {
+		//plaats de snake op het spelbord	
+		
+		String output; // geef 0,0 en 1,0 door aan showSnake
+		showSnake(output);
+		ui.showChanges();
+		
+	}
+		
+	void showSnake (String output) {
+		//laat de snake zien op het spelbord
+		//Check if output 2 strings(dus coordinaten) bevat, zo ja:
+		//plaats snake in het midden van het bord
+		//ui.place(x,y,?)
+		//zo nee:
+		//voeg een stukje toe aan de snake
+	
+	}
+	
+	void procesEvent (Event event) {
+		//begin met snake 
+		
+		if (event.name.equals("arrow")) {
+			processKey ();
+		}
+		if (event.name.equals("alarm")) {
+			processMovement ();
+		}
+	}
+	
+	void processKey () {
+		//check welke toets is ingedrukt en geef nieuwe richting door
+		
+	}
+	
+	
+	void processMovement () {
+		//laat de snake een stapje vooruit gaan
+		
+	}
+	
+	void start () {
+
+		placeSnake ();
+	
+		while (true) {
+			ui.setFramesPerSecond(FRAMESPERSECOND);
+			Event event = ui.getEvent();
+			procesEvent(event);
+			
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		new Snake().start();
+	}
+}
