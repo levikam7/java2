@@ -1,40 +1,42 @@
 package snake;
 
 import java.io.PrintStream;
-import java.util.Scanner;
-import ui.UIAuxiliaryMethods;
 import ui.Event;
 import ui.SnakeUserInterface;
 import ui.UserInterfaceFactory;
+import snake.CoordinateRow;
 
-public class Snake {
-	
-		// Name	:Levi k
-		// Assignment : Snake
-		// Date :25-11-2015
-	
+
+class Snake {
+
+	// Name	:Levi k
+	// Assignment : Snake
+	// Date :25-11-2015
+
 	static final int X_AS = 32;
 	static final int Y_AS = 24;
 	static final int FRAMESPERSECOND = 5;
-	
-	
+
+	CoordinateRow snake;
+
+
 	SnakeUserInterface ui;
 	PrintStream out;
-	
-	
+
+
 	Snake () {
 		ui = UserInterfaceFactory.getSnakeUI(X_AS, Y_AS);
 	}
-	
+
 	void placeSnake () {
 		//plaats de snake op het spelbord	
-		
-		String output; // geef 0,0 en 1,0 door aan showSnake
+
+		String output = null; // geef 0,0 en 1,0 door aan showSnake
 		showSnake(output);
 		ui.showChanges();
-		
+
 	}
-		
+
 	void showSnake (String output) {
 		//laat de snake zien op het spelbord
 		//Check if output 2 strings(dus coordinaten) bevat, zo ja:
@@ -42,12 +44,12 @@ public class Snake {
 		//ui.place(x,y,?)
 		//zo nee:
 		//voeg een stukje toe aan de snake
-	
+
 	}
-	
-	void procesEvent (Event event) {
+
+	void processEvent (Event event) {
 		//begin met snake 
-		
+
 		if (event.name.equals("arrow")) {
 			processKey ();
 		}
@@ -55,31 +57,59 @@ public class Snake {
 			processMovement ();
 		}
 	}
-	
+
 	void processKey () {
 		//check welke toets is ingedrukt en geef nieuwe richting door
-		
+		//if event.name.equals("U");
+		// if else event name.equals("d");
+		// enz. 
+
 	}
-	
-	
+
+
 	void processMovement () {
 		//laat de snake een stapje vooruit gaan
-		
+
+		//check if de snake botst
+		//if (head = coordinate.row) {
+		//out.printf("Je hebt gebotst");
+		// UIAuxiliaryMethods.showMessage(score);
+		//}
+
+
+		//check if snake een appel eet, zo ja:
+		processApple ();
 	}
-	
+
+	void placeApple() {
+		int xCoordinate =(int) (X_AS * Math.random());
+		int yCoordinate =(int) (Y_AS * Math.random());
+
+		ui.place(xCoordinate, yCoordinate, SnakeUserInterface.FOOD);
+	}
+
+	void processApple () {
+		//check if head = (xCoordinate, yCoordinate); {
+		//GrowSnake (); 
+		placeApple();
+		//}
+	}
+
+
 	void start () {
 
 		placeSnake ();
-	
+		placeApple();
+
 		while (true) {
 			ui.setFramesPerSecond(FRAMESPERSECOND);
 			Event event = ui.getEvent();
-			procesEvent(event);
-			
+			processEvent(event);
+
 		}
-		
+
 	}
-	
+
 	public static void main(String[] args) {
 		new Snake().start();
 	}
