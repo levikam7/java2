@@ -1,0 +1,64 @@
+package LongestPath;
+
+import ui.UIAuxiliaryMethods;
+import java.util.Scanner;
+import java.io.PrintStream;
+import ui.UserInterfaceFactory;
+import ui.LabyrinthUserInterface;
+
+
+class LongestPath {
+	// Levi
+	// LongestPath
+
+	static final int WIDTH = 32;
+	static final int HEIGHT = 24;
+
+	PrintStream out;
+
+	LongestPath() {
+		out = new PrintStream(System.out);
+		UIAuxiliaryMethods.askUserForInput();
+	}
+
+	void start() {
+		
+		Scanner in = new Scanner(System.in);
+		readFile(in);
+		out.printf("hello world");
+
+	}
+
+	void readFile(Scanner input) {
+		input.useDelimiter("=");
+		out.printf("hello world 1");
+		String startPosition = input.next();
+		out.printf("hello world 2");
+		Scanner startScanner = new Scanner(startPosition);
+		out.printf("hello world 3");
+		readStartPosition(startScanner);
+		String endPosition = input.next();
+		Scanner endScanner = new Scanner(endPosition);
+		readEndPosition(endScanner);
+		String wallsData = input.next();
+		Scanner wallsScanner = new Scanner(wallsData);
+		readWalls(wallsScanner);
+		
+	}
+
+	void readStartPosition(Scanner input) {
+		
+	}
+
+	void readEndPosition(Scanner input) {
+		
+	}
+
+	void readWalls(Scanner input) {
+
+	}
+
+	public static void main(String[] argv) {
+		new LongestPath().start();
+	}
+} 
