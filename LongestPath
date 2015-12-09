@@ -1,64 +1,145 @@
 package LongestPath;
 
-import ui.UIAuxiliaryMethods;
-import java.util.Scanner;
 import java.io.PrintStream;
-import ui.UserInterfaceFactory;
+import java.util.Scanner;
+
 import ui.LabyrinthUserInterface;
+import ui.UIAuxiliaryMethods;
+import ui.UserInterfaceFactory;
 
-
-class LongestPath {
-	// Levi
-	// LongestPath
-
+public class LongestPath {
+	// Name: Levi
+	// Assignment: LongestPath
+	// Date: 09-12-15
+	
+	LabyrinthUserInterface ui;
+	PrintStream out;
+	
 	static final int WIDTH = 32;
 	static final int HEIGHT = 24;
-
-	PrintStream out;
-
+	static final int WACHTTIJD = 1;
+	CoordinaatRij muren;
+	CoordinaatRij path;
+	CoordinaatRij langstePath;
+	Coordinaat start;
+	Coordinaat eind;
+	int lengte;
+	
 	LongestPath() {
-		out = new PrintStream(System.out);
-		UIAuxiliaryMethods.askUserForInput();
+		UserInterfaceFactory.enableLowResolution(true);
+		ui = UserInterfaceFactory.getLabyrinthUI(WIDTH, HEIGHT);
+		out = new PrintStream (System.out);
+		path = new CoordinaatRij(WIDTH * HEIGHT);
+		
+		muren = new CoordinaatRij(WIDTH * HEIGHT);
+		path = new CoordinaatRij(WIDTH * HEIGHT);
+		langstePath = new CoordinaatRij(WIDTH * HEIGHT);
+	}
+
+	void bepaalPath() {
+		if (isEindePath()) {
+			bepaalLangstePath(path);
+			return;
+		}
+		for (Richting richting: Richting.RICHTING) {
+			Coordinaat huidig = path.coordinaatArray[path.aantalCoordinaten - 1];
+			Coordinaat nieuw = new Coordinaat(huidig.x + richting.x, huidig.y + richting.y);
+
+			if (!muren.bevatCoordinaat(nieuw)) {
+				if (!path.bevatCoordinaat(nieuw)) {
+					ui.place(nieuw.x, nieuw.y, ui.PATH);
+					path.voegToe(nieuw);
+					ui.showChanges();
+					ui.wait(WACHTTIJD);
+					bepaalPath();
+					ui.place(nieuw.x, nieuw.y, ui.EMPTY);
+					path.verwijder();
+				}
+			}
+		}
+	}	
+	
+	boolean isEindePath() {
+		if (path.bevatCoordinaat(eind)) {
+			return true;
+		} else {
+		return false;
+		}
+	}
+	
+	void bepaalLangstePath(CoordinaatRij Path) {
+		if (path.aantalCoordinaten >= lengte) {		
+		lengte = path.aantalCoordinaten;
+		
+		langstePath = path.kopie();
+		}
+	}
+	
+	void leesLevel(Scanner input) {
+		input.useDelimiter("=");
+		
+		String startPositie = input.next();
+		Scanner startPositieScanner = new Scanner(startPositie);
+		leesStartPositie(startPositieScanner);
+		
+		String eindPositie = input.next();
+		Scanner eindPositieScanner = new Scanner(eindPositie);
+		leesEindPositie(eindPositieScanner);
+		
+		String muren = input.next();
+		Scanner murenScanner = new Scanner(muren);
+		leesMuren(murenScanner);
+	}
+	
+	void leesStartPositie(Scanner input) {
+		int x = input.nextInt();
+		int y = input.nextInt();
+		ui.encircle(x, y);
+		ui.place(x, y, ui.PATH);
+		start = new Coordinaat(x,y);
+		path.voegToe(start);
+	}
+	
+	void leesEindPositie(Scanner input) {
+		int x = input.nextInt();
+		int y = input.nextInt();
+		ui.encircle(x, y);
+		eind = new Coordinaat(x,y);
+	}
+	
+	void leesMuren(Scanner input) {
+		while (input.hasNext()) {
+			String coordinaatMuur = input.nextLine();
+			Scanner coordinaarMuurScanner = new Scanner (coordinaatMuur);
+			leesMuur(coordinaarMuurScanner);
+		}
+	}
+
+	void leesMuur(Scanner input) {
+		int xmuur = input.nextInt();
+		int ymuur = input.nextInt();
+		Coordinaat muur = new Coordinaat(xmuur, ymuur);
+		muren.voegToe(muur);
+		ui.place(xmuur, ymuur, ui.WALL);
+	}
+	
+	void print() {
+		for (int i = 0; i < langstePath.aantalCoordinaten; i++) {
+			ui.place(langstePath.coordinaatArray[i].x, langstePath.coordinaatArray[i].y, ui.PATH);
+		}
+		ui.printf("Dit is het langste pad met lengte: %d", langstePath.aantalCoordinaten);
+		ui.showChanges();
 	}
 
 	void start() {
+		Scanner in = UIAuxiliaryMethods.askUserForInput().getScanner();
 		
-		Scanner in = new Scanner(System.in);
-		readFile(in);
-		out.printf("hello world");
-
-	}
-
-	void readFile(Scanner input) {
-		input.useDelimiter("=");
-		out.printf("hello world 1");
-		String startPosition = input.next();
-		out.printf("hello world 2");
-		Scanner startScanner = new Scanner(startPosition);
-		out.printf("hello world 3");
-		readStartPosition(startScanner);
-		String endPosition = input.next();
-		Scanner endScanner = new Scanner(endPosition);
-		readEndPosition(endScanner);
-		String wallsData = input.next();
-		Scanner wallsScanner = new Scanner(wallsData);
-		readWalls(wallsScanner);
-		
-	}
-
-	void readStartPosition(Scanner input) {
-		
-	}
-
-	void readEndPosition(Scanner input) {
-		
-	}
-
-	void readWalls(Scanner input) {
-
+		leesLevel(in);
+		bepaalPath();
+		print();
 	}
 
 	public static void main(String[] argv) {
 		new LongestPath().start();
 	}
-} 
+}
