@@ -1,0 +1,19 @@
+package LongestPath;
+
+import LongestPath.Richting;
+
+public class Richting {
+	static final Richting RECHTS = new Richting(1,0);
+	static final Richting LINKS = new Richting(-1,0);
+	static final Richting ONDER = new Richting(0,1);
+	static final Richting BOVEN = new Richting(0,-1);
+	
+	static final Richting[] RICHTING = {LINKS,ONDER,RECHTS,BOVEN};
+	
+	int x,y;
+	
+	Richting(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+}
