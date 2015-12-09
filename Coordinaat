@@ -1,0 +1,16 @@
+package LongestPath;
+
+import LongestPath.Coordinaat;
+
+public class Coordinaat {
+	int x,y;
+	
+	Coordinaat(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	Coordinaat kopie() {
+		return new Coordinaat(x,y);
+	}
+}
