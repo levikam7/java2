@@ -1,0 +1,41 @@
+package LongestPath;
+
+import LongestPath.Coordinaat;
+import LongestPath.CoordinaatRij;
+
+public class CoordinaatRij {
+	static final int MAX_AANTAL_COORDINATEN = 500;
+	Coordinaat[] coordinaatArray;
+	int aantalCoordinaten;
+	
+	CoordinaatRij(int maxAantalCoordinaten) {
+		coordinaatArray = new Coordinaat[maxAantalCoordinaten];
+		aantalCoordinaten = 0;
+	}
+	
+	void voegToe (Coordinaat i) {
+		coordinaatArray[aantalCoordinaten] = i;
+		aantalCoordinaten += 1;
+	}
+	
+	void verwijder () {
+		aantalCoordinaten -= 1;
+	}
+	
+	CoordinaatRij kopie() {
+		CoordinaatRij resultaat = new CoordinaatRij(MAX_AANTAL_COORDINATEN);
+		for(int i = 0; i < aantalCoordinaten; i++) {
+			resultaat.voegToe(coordinaatArray[i].kopie());
+		}
+		return resultaat;
+	}
+	
+	boolean bevatCoordinaat (Coordinaat c) {
+		for (int i = 0; i < aantalCoordinaten; i++) {
+			if (coordinaatArray[i].x == c.x && coordinaatArray[i].y == c.y) {
+				return true;
+			}
+		}
+		return false;
+	}
+}
