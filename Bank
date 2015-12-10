@@ -1,0 +1,82 @@
+package Bank;
+
+
+import java.io.PrintStream;
+import java.util.Scanner;
+
+import Bank.CoordinatesRow;
+import Bank.Coordinates;
+import ui.UIAuxiliaryMethods;
+
+
+public class Bank {
+	
+	// Name	:Levi Kamsteeg
+	// Assignment : Bank
+	// Date : 09-12-15
+	
+	PrintStream out;
+
+	public Bank() {
+		out = new PrintStream(System.out);
+	}
+
+	void readBalanceFile () {
+		Scanner input = UIAuxiliaryMethods.askUserForInput().getScanner();
+		CoordinatesRow accountRow = new CoordinatesRow();
+		
+		while (input.hasNext()) {
+			String account = input.next();
+			String balance = input.next();
+			double balanceDouble = Double.valueOf(balance);
+			CoordinatesRow row;
+			
+			System.out.printf("%s %f \n", account, balanceDouble);
+		}
+	}
+
+	void readMutations () {
+		Scanner input = UIAuxiliaryMethods.askUserForInput().getScanner();
+		while (input.hasNext()) {
+			String account = input.next();
+			int dep = input.nextInt();
+			String amount = input.next();
+			double amountDouble = Double.valueOf(amount);
+			System.out.printf("%s %d %f \n", account, dep,  amountDouble);
+		}
+	}
+
+
+	void processBalance (int action, String account, double money) {
+
+		if (action == 1) {
+			//roep array voor "account" op en voeg money toe aan balance
+			//deposits ++
+		}
+
+		if (action == 2) {
+			//roep array voor "account" op en verwijder money toe aan balance
+			//withdraw ++
+		}
+	}
+
+	void printEndBalance() {
+		// print out : account previous balance deposits withdrawals balance
+		// roep array op 
+	}
+
+
+	
+	
+	void start() {
+		readBalanceFile () ;
+		readMutations ();
+		printEndBalance ();
+
+	}
+
+	public static void main(String[] args) {
+		new Bank().start();
+	}
+
+}
